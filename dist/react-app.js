@@ -4320,6 +4320,7 @@ var SWAP_NEEDED = "SWAP_NEEDED";
 var FINISHED = "FINISHED";
 var ADVANCE_3 = "ADVANCE_3";
 var ADVANCE_4 = "ADVANCE_4";
+var sampleAnswer = "\npublic int[] fix34(int[] nums) {\n    int index3, index4, temp;\n    index4 = 0; while (index4 < nums.length && nums[index4] != 4) index4++;\n    index3 = 0; while (index3 < nums.length && nums[index3] != 3) index3++;\n\n    while (index3 < nums.length && index4 < nums.length) {\n    if (nums[index3 + 1] != 4) {\n        temp = nums[index3+1];\n        nums[index3+1] = nums[index4];\n        nums[index4] = temp;\n    }\n    index4++; while (index4 < nums.length && nums[index4] != 4) index4++;\n    index3++; while (index3 < nums.length && nums[index3] != 3) index3++;\n    }\n    return nums;\n}\n";
 var steps = {};
 {
   steps[FIND_FIRST_4] = function (state) {
@@ -4353,7 +4354,7 @@ var steps = {};
     if (state.input[state.i3 + 1] != 4) {
       state.step = SWAP_NEEDED;
     } else {
-      state.step = ADVANCE_3;
+      state.step = ADVANCE_4;
       state.blue = -1;
     }
     return state;
@@ -4390,7 +4391,7 @@ var steps = {};
 }
 function ThreeFour() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
-      input: [5, 3, 5, 4, 5, 4, 5, 4, 3, 5, 3, 5],
+      input: [5, 3, 5, 4, 3, 4, 5, 4, 5, 4, 3, 5, 3, 5],
       i3: -1,
       i4: -1,
       blue: -1,
@@ -4417,14 +4418,16 @@ function ThreeFour() {
   var diagram = function diagram() {
     var paths = ["graph LR"];
     var priorNode = "START";
-    states.forEach(function (state) {
+    states.forEach(function (state, index) {
       var node = state.step;
-      paths.push(" ".concat(priorNode, "-->").concat(node));
+      paths.push(" ".concat(priorNode, "-->|\"").concat(index, "\"|").concat(node));
       priorNode = node;
     });
     return paths.join("\n\r");
   };
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", null, states.length), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("details", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("summary", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
+    href: "https://codingbat.com/prob/p159339"
+  }, "fix34 CodingBat")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("pre", null, sampleAnswer)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     onClick: untick
   }, "BACK"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     onClick: tick
