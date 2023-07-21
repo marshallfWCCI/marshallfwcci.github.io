@@ -4407,6 +4407,13 @@ function ThreeFour() {
       return [].concat(_toConsumableArray(states), [nextState]);
     });
   };
+  var untick = function untick() {
+    return setStates(function (states) {
+      var newStates = _toConsumableArray(states);
+      if (newStates.length > 1) newStates.pop();
+      return newStates;
+    });
+  };
   var diagram = function diagram() {
     var paths = ["graph LR"];
     var priorNode = "START";
@@ -4418,6 +4425,8 @@ function ThreeFour() {
     return paths.join("\n\r");
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", null, states.length), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: untick
+  }, "BACK"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     onClick: tick
   }, states.slice(-1)[0].step), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("pre", null, steps[states.slice(-1)[0].step].toString().replaceAll(/state\./g, "")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Mermaid_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
     chart: diagram()
