@@ -4381,9 +4381,11 @@ function FlowChart(_ref) {
     var paths = ["graph " + (horizontal ? "LR" : "TB")];
     var priorNode = undefined;
     states.forEach(function (state, index) {
-      var node = state.breakpoint.replaceAll(" ", "_");
-      if (priorNode) paths.push(" ".concat(priorNode, "-->|\"").concat(index, "\"|").concat(node));
-      priorNode = node;
+      if (state && state.breakpoint) {
+        var node = state.breakpoint.replaceAll(" ", "_");
+        if (priorNode) paths.push(" ".concat(priorNode, "-->|\"").concat(index, "\"|").concat(node));
+        priorNode = node;
+      }
     });
     return paths.join("\n");
   };
@@ -4892,7 +4894,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var mermaid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! mermaid */ "./node_modules/mermaid/dist/mermaid-a98f434b.js");
+/* harmony import */ var mermaid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! mermaid */ "./node_modules/mermaid/dist/mermaid-306576ad.js");
 
 
 function Mermaid(_ref) {
@@ -4901,8 +4903,8 @@ function Mermaid(_ref) {
   var myRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var _myRef$current;
-    mermaid__WEBPACK_IMPORTED_MODULE_1__.K.initialize(config || {});
-    mermaid__WEBPACK_IMPORTED_MODULE_1__.K.contentLoaded();
+    mermaid__WEBPACK_IMPORTED_MODULE_1__.L.initialize(config || {});
+    mermaid__WEBPACK_IMPORTED_MODULE_1__.L.contentLoaded();
     (_myRef$current = myRef.current) === null || _myRef$current === void 0 ? void 0 : _myRef$current.removeAttribute("data-processed");
   }, [chart, config]);
   if (myRef) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -90398,9 +90400,9 @@ function stubFalse() {
 
 /***/ }),
 
-/***/ "./node_modules/mermaid/dist/mermaid-a98f434b.js":
+/***/ "./node_modules/mermaid/dist/mermaid-306576ad.js":
 /*!*******************************************************!*\
-  !*** ./node_modules/mermaid/dist/mermaid-a98f434b.js ***!
+  !*** ./node_modules/mermaid/dist/mermaid-306576ad.js ***!
   \*******************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
@@ -90408,16 +90410,17 @@ function stubFalse() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   A: () => (/* binding */ setupGraphViewbox),
-/* harmony export */   B: () => (/* binding */ parseFontSize),
-/* harmony export */   C: () => (/* binding */ getThemeVariables$2),
-/* harmony export */   D: () => (/* binding */ defaultConfig$1),
-/* harmony export */   E: () => (/* binding */ addFunction),
-/* harmony export */   F: () => (/* binding */ generateId),
-/* harmony export */   G: () => (/* binding */ defaultConfig),
-/* harmony export */   H: () => (/* binding */ decodeEntities),
-/* harmony export */   I: () => (/* binding */ commonDb$1),
-/* harmony export */   J: () => (/* binding */ parseDirective$1),
-/* harmony export */   K: () => (/* binding */ mermaid),
+/* harmony export */   B: () => (/* binding */ selectSvgElement),
+/* harmony export */   C: () => (/* binding */ parseFontSize),
+/* harmony export */   D: () => (/* binding */ getThemeVariables$2),
+/* harmony export */   E: () => (/* binding */ defaultConfig$1),
+/* harmony export */   F: () => (/* binding */ addFunction),
+/* harmony export */   G: () => (/* binding */ generateId),
+/* harmony export */   H: () => (/* binding */ defaultConfig),
+/* harmony export */   I: () => (/* binding */ decodeEntities),
+/* harmony export */   J: () => (/* binding */ commonDb$1),
+/* harmony export */   K: () => (/* binding */ parseDirective$1),
+/* harmony export */   L: () => (/* binding */ mermaid),
 /* harmony export */   Z: () => (/* binding */ ZERO_WIDTH_SPACE),
 /* harmony export */   a: () => (/* binding */ getAccDescription),
 /* harmony export */   b: () => (/* binding */ setAccDescription),
@@ -94816,7 +94819,7 @@ const setupGraphViewbox$1 = function(graph, svgElem, padding, useMaxWidth) {
   svgElem.attr("viewBox", vBox);
 };
 const themes = {};
-const getStyles$1 = (type2, userStyles, options) => {
+const getStyles = (type2, userStyles, options) => {
   let diagramStyles = "";
   if (type2 in themes && themes[type2]) {
     diagramStyles = themes[type2](options);
@@ -94879,7 +94882,7 @@ const addStylesForDiagram = (type2, diagramTheme) => {
     themes[type2] = diagramTheme;
   }
 };
-const getStyles$2 = getStyles$1;
+const getStyles$1 = getStyles;
 let title = "";
 let diagramTitle = "";
 let description = "";
@@ -95036,8 +95039,13 @@ const getDiagram = (name) => {
   if (name in diagrams) {
     return diagrams[name];
   }
-  throw new Error(`Diagram ${name} not found.`);
+  throw new DiagramNotFoundError(name);
 };
+class DiagramNotFoundError extends Error {
+  constructor(name) {
+    super(`Diagram ${name} not found.`);
+  }
+}
 class UnknownDiagramError extends Error {
   constructor(message) {
     super(message);
@@ -95642,12 +95650,6 @@ const sanitizeCss = (str2) => {
 function isDetailedError(error) {
   return "str" in error;
 }
-function getErrorMessage(error) {
-  if (error instanceof Error) {
-    return error.message;
-  }
-  return String(error);
-}
 const insertTitle = (parent, cssClass, titleTopMargin, title2) => {
   if (!title2) {
     return;
@@ -95693,13 +95695,13 @@ const utils = {
   insertTitle,
   parseFontSize
 };
-const version = "10.3.0";
+const version = "10.3.1";
 const id$j = "c4";
 const detector$j = (txt) => {
   return /^\s*C4Context|C4Container|C4Component|C4Dynamic|C4Deployment/.test(txt);
 };
 const loader$j = async () => {
-  const { diagram: diagram2 } = await __webpack_require__.e(/*! import() */ "vendors-node_modules_mermaid_dist_c4Diagram-36d27044_js").then(__webpack_require__.bind(__webpack_require__, /*! ./c4Diagram-36d27044.js */ "./node_modules/mermaid/dist/c4Diagram-36d27044.js"));
+  const { diagram: diagram2 } = await __webpack_require__.e(/*! import() */ "vendors-node_modules_mermaid_dist_c4Diagram-4de0d805_js").then(__webpack_require__.bind(__webpack_require__, /*! ./c4Diagram-4de0d805.js */ "./node_modules/mermaid/dist/c4Diagram-4de0d805.js"));
   return { id: id$j, diagram: diagram2 };
 };
 const plugin$i = {
@@ -95717,7 +95719,7 @@ const detector$i = (txt, config2) => {
   return /^\s*graph/.test(txt);
 };
 const loader$i = async () => {
-  const { diagram: diagram2 } = await Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_dagre-d3-es_src_dagre_index_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_createText-285e50b4_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_svgDraw-5d8a058e_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_edges-b00f0ec2_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_index-4c4adb72_js"), __webpack_require__.e("vendors-node_modules_dagre-d3-es_src_dagre-js_label_add-html-label_js-node_modules_mermaid_di-c06a1e"), __webpack_require__.e("vendors-node_modules_mermaid_dist_styles-ff678862_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_flowDiagram-698c8d5d_js")]).then(__webpack_require__.bind(__webpack_require__, /*! ./flowDiagram-698c8d5d.js */ "./node_modules/mermaid/dist/flowDiagram-698c8d5d.js"));
+  const { diagram: diagram2 } = await Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_dagre-d3-es_src_dagre_index_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_createText-b670c180_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_svgDraw-b48a99d5_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_edges-c959041a_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_index-892ad7fb_js"), __webpack_require__.e("vendors-node_modules_dagre-d3-es_src_dagre-js_label_add-html-label_js-node_modules_mermaid_di-9b63c2"), __webpack_require__.e("vendors-node_modules_mermaid_dist_styles-4fcf332f_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_flowDiagram-42ba8acc_js")]).then(__webpack_require__.bind(__webpack_require__, /*! ./flowDiagram-42ba8acc.js */ "./node_modules/mermaid/dist/flowDiagram-42ba8acc.js"));
   return { id: id$i, diagram: diagram2 };
 };
 const plugin$h = {
@@ -95738,7 +95740,7 @@ const detector$h = (txt, config2) => {
   return /^\s*flowchart/.test(txt);
 };
 const loader$h = async () => {
-  const { diagram: diagram2 } = await Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_dagre-d3-es_src_dagre_index_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_createText-285e50b4_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_svgDraw-5d8a058e_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_edges-b00f0ec2_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_index-4c4adb72_js"), __webpack_require__.e("vendors-node_modules_dagre-d3-es_src_dagre-js_label_add-html-label_js-node_modules_mermaid_di-c06a1e"), __webpack_require__.e("vendors-node_modules_mermaid_dist_styles-ff678862_js"), __webpack_require__.e("node_modules_mermaid_dist_flowDiagram-v2-d6437390_js")]).then(__webpack_require__.bind(__webpack_require__, /*! ./flowDiagram-v2-d6437390.js */ "./node_modules/mermaid/dist/flowDiagram-v2-d6437390.js"));
+  const { diagram: diagram2 } = await Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_dagre-d3-es_src_dagre_index_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_createText-b670c180_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_svgDraw-b48a99d5_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_edges-c959041a_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_index-892ad7fb_js"), __webpack_require__.e("vendors-node_modules_dagre-d3-es_src_dagre-js_label_add-html-label_js-node_modules_mermaid_di-9b63c2"), __webpack_require__.e("vendors-node_modules_mermaid_dist_styles-4fcf332f_js"), __webpack_require__.e("node_modules_mermaid_dist_flowDiagram-v2-e4ef3cbe_js")]).then(__webpack_require__.bind(__webpack_require__, /*! ./flowDiagram-v2-e4ef3cbe.js */ "./node_modules/mermaid/dist/flowDiagram-v2-e4ef3cbe.js"));
   return { id: id$h, diagram: diagram2 };
 };
 const plugin$g = {
@@ -95752,7 +95754,7 @@ const detector$g = (txt) => {
   return /^\s*erDiagram/.test(txt);
 };
 const loader$g = async () => {
-  const { diagram: diagram2 } = await Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_dagre-d3-es_src_dagre_index_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_erDiagram-0ccc0425_js")]).then(__webpack_require__.bind(__webpack_require__, /*! ./erDiagram-0ccc0425.js */ "./node_modules/mermaid/dist/erDiagram-0ccc0425.js"));
+  const { diagram: diagram2 } = await Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_dagre-d3-es_src_dagre_index_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_erDiagram-105a1cb2_js")]).then(__webpack_require__.bind(__webpack_require__, /*! ./erDiagram-105a1cb2.js */ "./node_modules/mermaid/dist/erDiagram-105a1cb2.js"));
   return { id: id$g, diagram: diagram2 };
 };
 const plugin$f = {
@@ -95766,7 +95768,7 @@ const detector$f = (txt) => {
   return /^\s*gitGraph/.test(txt);
 };
 const loader$f = async () => {
-  const { diagram: diagram2 } = await __webpack_require__.e(/*! import() */ "vendors-node_modules_mermaid_dist_gitGraphDiagram-a13ae597_js").then(__webpack_require__.bind(__webpack_require__, /*! ./gitGraphDiagram-a13ae597.js */ "./node_modules/mermaid/dist/gitGraphDiagram-a13ae597.js"));
+  const { diagram: diagram2 } = await __webpack_require__.e(/*! import() */ "vendors-node_modules_mermaid_dist_gitGraphDiagram-1dcba3c4_js").then(__webpack_require__.bind(__webpack_require__, /*! ./gitGraphDiagram-1dcba3c4.js */ "./node_modules/mermaid/dist/gitGraphDiagram-1dcba3c4.js"));
   return { id: id$f, diagram: diagram2 };
 };
 const plugin$e = {
@@ -95780,7 +95782,7 @@ const detector$e = (txt) => {
   return /^\s*gantt/.test(txt);
 };
 const loader$e = async () => {
-  const { diagram: diagram2 } = await __webpack_require__.e(/*! import() */ "vendors-node_modules_mermaid_dist_ganttDiagram-60845bff_js").then(__webpack_require__.bind(__webpack_require__, /*! ./ganttDiagram-60845bff.js */ "./node_modules/mermaid/dist/ganttDiagram-60845bff.js"));
+  const { diagram: diagram2 } = await __webpack_require__.e(/*! import() */ "vendors-node_modules_mermaid_dist_ganttDiagram-33119f0c_js").then(__webpack_require__.bind(__webpack_require__, /*! ./ganttDiagram-33119f0c.js */ "./node_modules/mermaid/dist/ganttDiagram-33119f0c.js"));
   return { id: id$e, diagram: diagram2 };
 };
 const plugin$d = {
@@ -95794,7 +95796,7 @@ const detector$d = (txt) => {
   return /^\s*info/.test(txt);
 };
 const loader$d = async () => {
-  const { diagram: diagram2 } = await __webpack_require__.e(/*! import() */ "vendors-node_modules_mermaid_dist_infoDiagram-c976a9ed_js").then(__webpack_require__.bind(__webpack_require__, /*! ./infoDiagram-c976a9ed.js */ "./node_modules/mermaid/dist/infoDiagram-c976a9ed.js"));
+  const { diagram: diagram2 } = await __webpack_require__.e(/*! import() */ "vendors-node_modules_mermaid_dist_infoDiagram-99aec0e9_js").then(__webpack_require__.bind(__webpack_require__, /*! ./infoDiagram-99aec0e9.js */ "./node_modules/mermaid/dist/infoDiagram-99aec0e9.js"));
   return { id: id$d, diagram: diagram2 };
 };
 const info = {
@@ -95807,7 +95809,7 @@ const detector$c = (txt) => {
   return /^\s*pie/.test(txt);
 };
 const loader$c = async () => {
-  const { diagram: diagram2 } = await __webpack_require__.e(/*! import() */ "vendors-node_modules_mermaid_dist_pieDiagram-5efcb91d_js").then(__webpack_require__.bind(__webpack_require__, /*! ./pieDiagram-5efcb91d.js */ "./node_modules/mermaid/dist/pieDiagram-5efcb91d.js"));
+  const { diagram: diagram2 } = await __webpack_require__.e(/*! import() */ "vendors-node_modules_mermaid_dist_pieDiagram-b06a513b_js").then(__webpack_require__.bind(__webpack_require__, /*! ./pieDiagram-b06a513b.js */ "./node_modules/mermaid/dist/pieDiagram-b06a513b.js"));
   return { id: id$c, diagram: diagram2 };
 };
 const plugin$c = {
@@ -95821,7 +95823,7 @@ const detector$b = (txt) => {
   return /^\s*quadrantChart/.test(txt);
 };
 const loader$b = async () => {
-  const { diagram: diagram2 } = await __webpack_require__.e(/*! import() */ "vendors-node_modules_mermaid_dist_quadrantDiagram-559115c7_js").then(__webpack_require__.bind(__webpack_require__, /*! ./quadrantDiagram-559115c7.js */ "./node_modules/mermaid/dist/quadrantDiagram-559115c7.js"));
+  const { diagram: diagram2 } = await __webpack_require__.e(/*! import() */ "vendors-node_modules_mermaid_dist_quadrantDiagram-42727e21_js").then(__webpack_require__.bind(__webpack_require__, /*! ./quadrantDiagram-42727e21.js */ "./node_modules/mermaid/dist/quadrantDiagram-42727e21.js"));
   return { id: id$b, diagram: diagram2 };
 };
 const plugin$b = {
@@ -95835,7 +95837,7 @@ const detector$a = (txt) => {
   return /^\s*requirement(Diagram)?/.test(txt);
 };
 const loader$a = async () => {
-  const { diagram: diagram2 } = await Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_dagre-d3-es_src_dagre_index_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_requirementDiagram-b2d6a344_js")]).then(__webpack_require__.bind(__webpack_require__, /*! ./requirementDiagram-b2d6a344.js */ "./node_modules/mermaid/dist/requirementDiagram-b2d6a344.js"));
+  const { diagram: diagram2 } = await Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_dagre-d3-es_src_dagre_index_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_requirementDiagram-96e78f61_js")]).then(__webpack_require__.bind(__webpack_require__, /*! ./requirementDiagram-96e78f61.js */ "./node_modules/mermaid/dist/requirementDiagram-96e78f61.js"));
   return { id: id$a, diagram: diagram2 };
 };
 const plugin$a = {
@@ -95849,7 +95851,7 @@ const detector$9 = (txt) => {
   return /^\s*sequenceDiagram/.test(txt);
 };
 const loader$9 = async () => {
-  const { diagram: diagram2 } = await __webpack_require__.e(/*! import() */ "vendors-node_modules_mermaid_dist_sequenceDiagram-583eee82_js").then(__webpack_require__.bind(__webpack_require__, /*! ./sequenceDiagram-583eee82.js */ "./node_modules/mermaid/dist/sequenceDiagram-583eee82.js"));
+  const { diagram: diagram2 } = await __webpack_require__.e(/*! import() */ "vendors-node_modules_mermaid_dist_sequenceDiagram-342ef5c4_js").then(__webpack_require__.bind(__webpack_require__, /*! ./sequenceDiagram-342ef5c4.js */ "./node_modules/mermaid/dist/sequenceDiagram-342ef5c4.js"));
   return { id: id$9, diagram: diagram2 };
 };
 const plugin$9 = {
@@ -95867,7 +95869,7 @@ const detector$8 = (txt, config2) => {
   return /^\s*classDiagram/.test(txt);
 };
 const loader$8 = async () => {
-  const { diagram: diagram2 } = await Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_dagre-d3-es_src_dagre_index_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_svgDraw-5d8a058e_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_styles-88ad4441_js"), __webpack_require__.e("node_modules_mermaid_dist_classDiagram-5e843ae7_js")]).then(__webpack_require__.bind(__webpack_require__, /*! ./classDiagram-5e843ae7.js */ "./node_modules/mermaid/dist/classDiagram-5e843ae7.js"));
+  const { diagram: diagram2 } = await Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_dagre-d3-es_src_dagre_index_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_svgDraw-b48a99d5_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_styles-d0b2ab71_js"), __webpack_require__.e("node_modules_mermaid_dist_classDiagram-0da88708_js")]).then(__webpack_require__.bind(__webpack_require__, /*! ./classDiagram-0da88708.js */ "./node_modules/mermaid/dist/classDiagram-0da88708.js"));
   return { id: id$8, diagram: diagram2 };
 };
 const plugin$8 = {
@@ -95885,7 +95887,7 @@ const detector$7 = (txt, config2) => {
   return /^\s*classDiagram-v2/.test(txt);
 };
 const loader$7 = async () => {
-  const { diagram: diagram2 } = await Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_dagre-d3-es_src_dagre_index_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_createText-285e50b4_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_svgDraw-5d8a058e_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_edges-b00f0ec2_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_index-4c4adb72_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_styles-88ad4441_js"), __webpack_require__.e("node_modules_mermaid_dist_classDiagram-v2-8c3b3e6a_js")]).then(__webpack_require__.bind(__webpack_require__, /*! ./classDiagram-v2-8c3b3e6a.js */ "./node_modules/mermaid/dist/classDiagram-v2-8c3b3e6a.js"));
+  const { diagram: diagram2 } = await Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_dagre-d3-es_src_dagre_index_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_createText-b670c180_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_svgDraw-b48a99d5_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_edges-c959041a_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_index-892ad7fb_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_styles-d0b2ab71_js"), __webpack_require__.e("node_modules_mermaid_dist_classDiagram-v2-2f4ae322_js")]).then(__webpack_require__.bind(__webpack_require__, /*! ./classDiagram-v2-2f4ae322.js */ "./node_modules/mermaid/dist/classDiagram-v2-2f4ae322.js"));
   return { id: id$7, diagram: diagram2 };
 };
 const plugin$7 = {
@@ -95903,7 +95905,7 @@ const detector$6 = (txt, config2) => {
   return /^\s*stateDiagram/.test(txt);
 };
 const loader$6 = async () => {
-  const { diagram: diagram2 } = await Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_dagre-d3-es_src_dagre_index_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_styles-f626f8de_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_stateDiagram-b1c07dc6_js")]).then(__webpack_require__.bind(__webpack_require__, /*! ./stateDiagram-b1c07dc6.js */ "./node_modules/mermaid/dist/stateDiagram-b1c07dc6.js"));
+  const { diagram: diagram2 } = await Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_dagre-d3-es_src_dagre_index_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_styles-1e36f090_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_stateDiagram-3ac8af33_js")]).then(__webpack_require__.bind(__webpack_require__, /*! ./stateDiagram-3ac8af33.js */ "./node_modules/mermaid/dist/stateDiagram-3ac8af33.js"));
   return { id: id$6, diagram: diagram2 };
 };
 const plugin$6 = {
@@ -95924,7 +95926,7 @@ const detector$5 = (txt, config2) => {
   return false;
 };
 const loader$5 = async () => {
-  const { diagram: diagram2 } = await Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_dagre-d3-es_src_dagre_index_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_createText-285e50b4_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_svgDraw-5d8a058e_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_edges-b00f0ec2_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_index-4c4adb72_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_styles-f626f8de_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_stateDiagram-v2-7c93469e_js")]).then(__webpack_require__.bind(__webpack_require__, /*! ./stateDiagram-v2-7c93469e.js */ "./node_modules/mermaid/dist/stateDiagram-v2-7c93469e.js"));
+  const { diagram: diagram2 } = await Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_dagre-d3-es_src_dagre_index_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_createText-b670c180_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_svgDraw-b48a99d5_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_edges-c959041a_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_index-892ad7fb_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_styles-1e36f090_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_stateDiagram-v2-ca22f0dc_js")]).then(__webpack_require__.bind(__webpack_require__, /*! ./stateDiagram-v2-ca22f0dc.js */ "./node_modules/mermaid/dist/stateDiagram-v2-ca22f0dc.js"));
   return { id: id$5, diagram: diagram2 };
 };
 const plugin$5 = {
@@ -95938,7 +95940,7 @@ const detector$4 = (txt) => {
   return /^\s*journey/.test(txt);
 };
 const loader$4 = async () => {
-  const { diagram: diagram2 } = await __webpack_require__.e(/*! import() */ "vendors-node_modules_mermaid_dist_journeyDiagram-5120ee2f_js").then(__webpack_require__.bind(__webpack_require__, /*! ./journeyDiagram-5120ee2f.js */ "./node_modules/mermaid/dist/journeyDiagram-5120ee2f.js"));
+  const { diagram: diagram2 } = await __webpack_require__.e(/*! import() */ "vendors-node_modules_mermaid_dist_journeyDiagram-50e783bb_js").then(__webpack_require__.bind(__webpack_require__, /*! ./journeyDiagram-50e783bb.js */ "./node_modules/mermaid/dist/journeyDiagram-50e783bb.js"));
   return { id: id$4, diagram: diagram2 };
 };
 const plugin$4 = {
@@ -95947,66 +95949,61 @@ const plugin$4 = {
   loader: loader$4
 };
 const journey = plugin$4;
-const getStyles = () => ``;
-const styles = getStyles;
-const setConf = function() {
-};
-const draw = (_text, id2, mermaidVersion) => {
-  try {
-    log$1.debug("Renering svg for syntax error\n");
-    const svg = (0,d3__WEBPACK_IMPORTED_MODULE_3__.select)("#" + id2);
-    const g = svg.append("g");
-    g.append("path").attr("class", "error-icon").attr(
-      "d",
-      "m411.313,123.313c6.25-6.25 6.25-16.375 0-22.625s-16.375-6.25-22.625,0l-32,32-9.375,9.375-20.688-20.688c-12.484-12.5-32.766-12.5-45.25,0l-16,16c-1.261,1.261-2.304,2.648-3.31,4.051-21.739-8.561-45.324-13.426-70.065-13.426-105.867,0-192,86.133-192,192s86.133,192 192,192 192-86.133 192-192c0-24.741-4.864-48.327-13.426-70.065 1.402-1.007 2.79-2.049 4.051-3.31l16-16c12.5-12.492 12.5-32.758 0-45.25l-20.688-20.688 9.375-9.375 32.001-31.999zm-219.313,100.687c-52.938,0-96,43.063-96,96 0,8.836-7.164,16-16,16s-16-7.164-16-16c0-70.578 57.422-128 128-128 8.836,0 16,7.164 16,16s-7.164,16-16,16z"
-    );
-    g.append("path").attr("class", "error-icon").attr(
-      "d",
-      "m459.02,148.98c-6.25-6.25-16.375-6.25-22.625,0s-6.25,16.375 0,22.625l16,16c3.125,3.125 7.219,4.688 11.313,4.688 4.094,0 8.188-1.563 11.313-4.688 6.25-6.25 6.25-16.375 0-22.625l-16.001-16z"
-    );
-    g.append("path").attr("class", "error-icon").attr(
-      "d",
-      "m340.395,75.605c3.125,3.125 7.219,4.688 11.313,4.688 4.094,0 8.188-1.563 11.313-4.688 6.25-6.25 6.25-16.375 0-22.625l-16-16c-6.25-6.25-16.375-6.25-22.625,0s-6.25,16.375 0,22.625l15.999,16z"
-    );
-    g.append("path").attr("class", "error-icon").attr(
-      "d",
-      "m400,64c8.844,0 16-7.164 16-16v-32c0-8.836-7.156-16-16-16-8.844,0-16,7.164-16,16v32c0,8.836 7.156,16 16,16z"
-    );
-    g.append("path").attr("class", "error-icon").attr(
-      "d",
-      "m496,96.586h-32c-8.844,0-16,7.164-16,16 0,8.836 7.156,16 16,16h32c8.844,0 16-7.164 16-16 0-8.836-7.156-16-16-16z"
-    );
-    g.append("path").attr("class", "error-icon").attr(
-      "d",
-      "m436.98,75.605c3.125,3.125 7.219,4.688 11.313,4.688 4.094,0 8.188-1.563 11.313-4.688l32-32c6.25-6.25 6.25-16.375 0-22.625s-16.375-6.25-22.625,0l-32,32c-6.251,6.25-6.251,16.375-0.001,22.625z"
-    );
-    g.append("text").attr("class", "error-text").attr("x", 1440).attr("y", 250).attr("font-size", "150px").style("text-anchor", "middle").text("Syntax error in text");
-    g.append("text").attr("class", "error-text").attr("x", 1250).attr("y", 400).attr("font-size", "100px").style("text-anchor", "middle").text("mermaid version " + mermaidVersion);
-    svg.attr("height", 100);
-    svg.attr("width", 500);
-    svg.attr("viewBox", "768 0 912 512");
-  } catch (e) {
-    log$1.error("Error while rendering info diagram");
-    log$1.error(getErrorMessage(e));
+const selectSvgElement = (id2) => {
+  var _a;
+  const { securityLevel } = getConfig$1();
+  let root = (0,d3__WEBPACK_IMPORTED_MODULE_3__.select)("body");
+  if (securityLevel === "sandbox") {
+    const sandboxElement = (0,d3__WEBPACK_IMPORTED_MODULE_3__.select)(`#i${id2}`);
+    const doc = ((_a = sandboxElement.node()) == null ? void 0 : _a.contentDocument) ?? document;
+    root = (0,d3__WEBPACK_IMPORTED_MODULE_3__.select)(doc.body);
   }
+  const svg = root.select(`#${id2}`);
+  return svg;
 };
-const errorRenderer = {
-  setConf,
-  draw
+const draw = (_text, id2, version2) => {
+  log$1.debug("renering svg for syntax error\n");
+  const svg = selectSvgElement(id2);
+  svg.attr("viewBox", "0 0 2412 512");
+  configureSvgSize(svg, 100, 512, true);
+  const g = svg.append("g");
+  g.append("path").attr("class", "error-icon").attr(
+    "d",
+    "m411.313,123.313c6.25-6.25 6.25-16.375 0-22.625s-16.375-6.25-22.625,0l-32,32-9.375,9.375-20.688-20.688c-12.484-12.5-32.766-12.5-45.25,0l-16,16c-1.261,1.261-2.304,2.648-3.31,4.051-21.739-8.561-45.324-13.426-70.065-13.426-105.867,0-192,86.133-192,192s86.133,192 192,192 192-86.133 192-192c0-24.741-4.864-48.327-13.426-70.065 1.402-1.007 2.79-2.049 4.051-3.31l16-16c12.5-12.492 12.5-32.758 0-45.25l-20.688-20.688 9.375-9.375 32.001-31.999zm-219.313,100.687c-52.938,0-96,43.063-96,96 0,8.836-7.164,16-16,16s-16-7.164-16-16c0-70.578 57.422-128 128-128 8.836,0 16,7.164 16,16s-7.164,16-16,16z"
+  );
+  g.append("path").attr("class", "error-icon").attr(
+    "d",
+    "m459.02,148.98c-6.25-6.25-16.375-6.25-22.625,0s-6.25,16.375 0,22.625l16,16c3.125,3.125 7.219,4.688 11.313,4.688 4.094,0 8.188-1.563 11.313-4.688 6.25-6.25 6.25-16.375 0-22.625l-16.001-16z"
+  );
+  g.append("path").attr("class", "error-icon").attr(
+    "d",
+    "m340.395,75.605c3.125,3.125 7.219,4.688 11.313,4.688 4.094,0 8.188-1.563 11.313-4.688 6.25-6.25 6.25-16.375 0-22.625l-16-16c-6.25-6.25-16.375-6.25-22.625,0s-6.25,16.375 0,22.625l15.999,16z"
+  );
+  g.append("path").attr("class", "error-icon").attr(
+    "d",
+    "m400,64c8.844,0 16-7.164 16-16v-32c0-8.836-7.156-16-16-16-8.844,0-16,7.164-16,16v32c0,8.836 7.156,16 16,16z"
+  );
+  g.append("path").attr("class", "error-icon").attr(
+    "d",
+    "m496,96.586h-32c-8.844,0-16,7.164-16,16 0,8.836 7.156,16 16,16h32c8.844,0 16-7.164 16-16 0-8.836-7.156-16-16-16z"
+  );
+  g.append("path").attr("class", "error-icon").attr(
+    "d",
+    "m436.98,75.605c3.125,3.125 7.219,4.688 11.313,4.688 4.094,0 8.188-1.563 11.313-4.688l32-32c6.25-6.25 6.25-16.375 0-22.625s-16.375-6.25-22.625,0l-32,32c-6.251,6.25-6.251,16.375-0.001,22.625z"
+  );
+  g.append("text").attr("class", "error-text").attr("x", 1440).attr("y", 250).attr("font-size", "150px").style("text-anchor", "middle").text("Syntax error in text");
+  g.append("text").attr("class", "error-text").attr("x", 1250).attr("y", 400).attr("font-size", "100px").style("text-anchor", "middle").text(`mermaid version ${version2}`);
 };
+const renderer = { draw };
+const errorRenderer = renderer;
 const diagram = {
-  db: {
-    clear: () => {
-    }
-  },
-  styles,
-  renderer: errorRenderer,
+  db: {},
+  renderer,
   parser: {
     parser: { yy: {} },
     parse: () => {
+      return;
     }
-  },
-  init: () => {
   }
 };
 const errorDiagram = diagram;
@@ -96023,7 +96020,7 @@ const detector$3 = (txt, config2) => {
   return false;
 };
 const loader$3 = async () => {
-  const { diagram: diagram2 } = await Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_mermaid_dist_createText-285e50b4_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_svgDraw-5d8a058e_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_edges-b00f0ec2_js"), __webpack_require__.e("vendors-node_modules_dagre-d3-es_src_dagre-js_label_add-html-label_js-node_modules_mermaid_di-c06a1e"), __webpack_require__.e("vendors-node_modules_lodash-es_isPlainObject_js-node_modules_mermaid_dist_flowchart-elk-defin-7b5bf9")]).then(__webpack_require__.bind(__webpack_require__, /*! ./flowchart-elk-definition-6f4e6aa0.js */ "./node_modules/mermaid/dist/flowchart-elk-definition-6f4e6aa0.js"));
+  const { diagram: diagram2 } = await Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_mermaid_dist_createText-b670c180_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_svgDraw-b48a99d5_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_edges-c959041a_js"), __webpack_require__.e("vendors-node_modules_dagre-d3-es_src_dagre-js_label_add-html-label_js-node_modules_mermaid_di-9b63c2"), __webpack_require__.e("vendors-node_modules_lodash-es_isPlainObject_js-node_modules_mermaid_dist_flowchart-elk-defin-6a8674")]).then(__webpack_require__.bind(__webpack_require__, /*! ./flowchart-elk-definition-8136f426.js */ "./node_modules/mermaid/dist/flowchart-elk-definition-8136f426.js"));
   return { id: id$3, diagram: diagram2 };
 };
 const plugin$3 = {
@@ -96037,7 +96034,7 @@ const detector$2 = (txt) => {
   return /^\s*timeline/.test(txt);
 };
 const loader$2 = async () => {
-  const { diagram: diagram2 } = await __webpack_require__.e(/*! import() */ "vendors-node_modules_mermaid_dist_timeline-definition-491ea63c_js").then(__webpack_require__.bind(__webpack_require__, /*! ./timeline-definition-491ea63c.js */ "./node_modules/mermaid/dist/timeline-definition-491ea63c.js"));
+  const { diagram: diagram2 } = await __webpack_require__.e(/*! import() */ "vendors-node_modules_mermaid_dist_timeline-definition-cbf43e70_js").then(__webpack_require__.bind(__webpack_require__, /*! ./timeline-definition-cbf43e70.js */ "./node_modules/mermaid/dist/timeline-definition-cbf43e70.js"));
   return { id: id$2, diagram: diagram2 };
 };
 const plugin$2 = {
@@ -96051,7 +96048,7 @@ const detector$1 = (txt) => {
   return /^\s*mindmap/.test(txt);
 };
 const loader$1 = async () => {
-  const { diagram: diagram2 } = await Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_mermaid_dist_createText-285e50b4_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_mindmap-definition-0ab67801_js")]).then(__webpack_require__.bind(__webpack_require__, /*! ./mindmap-definition-0ab67801.js */ "./node_modules/mermaid/dist/mindmap-definition-0ab67801.js"));
+  const { diagram: diagram2 } = await Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_mermaid_dist_createText-b670c180_js"), __webpack_require__.e("vendors-node_modules_mermaid_dist_mindmap-definition-5f036dbb_js")]).then(__webpack_require__.bind(__webpack_require__, /*! ./mindmap-definition-5f036dbb.js */ "./node_modules/mermaid/dist/mindmap-definition-5f036dbb.js"));
   return { id: id$1, diagram: diagram2 };
 };
 const plugin$1 = {
@@ -96065,7 +96062,7 @@ const detector = (txt) => {
   return /^\s*sankey-beta/.test(txt);
 };
 const loader = async () => {
-  const { diagram: diagram2 } = await __webpack_require__.e(/*! import() */ "vendors-node_modules_mermaid_dist_sankeyDiagram-e679478d_js").then(__webpack_require__.bind(__webpack_require__, /*! ./sankeyDiagram-e679478d.js */ "./node_modules/mermaid/dist/sankeyDiagram-e679478d.js"));
+  const { diagram: diagram2 } = await __webpack_require__.e(/*! import() */ "vendors-node_modules_mermaid_dist_sankeyDiagram-91977475_js").then(__webpack_require__.bind(__webpack_require__, /*! ./sankeyDiagram-91977475.js */ "./node_modules/mermaid/dist/sankeyDiagram-91977475.js"));
   return { id, diagram: diagram2 };
 };
 const plugin = {
@@ -96138,7 +96135,6 @@ const cleanupComments = (text) => {
 };
 class Diagram {
   constructor(text) {
-    var _a, _b;
     this.text = text;
     this.type = "graph";
     this.text += "\n";
@@ -96152,24 +96148,21 @@ class Diagram {
     const diagram2 = getDiagram(this.type);
     log$1.debug("Type " + this.type);
     this.db = diagram2.db;
-    (_b = (_a = this.db).clear) == null ? void 0 : _b.call(_a);
     this.renderer = diagram2.renderer;
     this.parser = diagram2.parser;
     const originalParse = this.parser.parse.bind(this.parser);
     this.parser.parse = (text2) => originalParse(cleanupComments(extractFrontMatter(text2, this.db)));
     this.parser.parser.yy = this.db;
-    if (diagram2.init) {
-      diagram2.init(cnf);
-      log$1.info("Initialized diagram " + this.type, cnf);
-    }
+    this.init = diagram2.init;
     this.parse();
   }
   parse() {
-    var _a, _b;
+    var _a, _b, _c;
     if (this.detectError) {
       throw this.detectError;
     }
     (_b = (_a = this.db).clear) == null ? void 0 : _b.call(_a);
+    (_c = this.init) == null ? void 0 : _c.call(this, getConfig$1());
     this.parser.parse(this.text);
   }
   async render(id2, version2) {
@@ -96254,8 +96247,7 @@ const DOMPURIFY_ATTR = ["dominant-baseline"];
 async function parse$1(text, parseOptions) {
   addDiagrams();
   try {
-    const diagram2 = await getDiagramFromText(text);
-    diagram2.parse();
+    await getDiagramFromText(text);
   } catch (error) {
     if (parseOptions == null ? void 0 : parseOptions.suppressErrors) {
       return false;
@@ -96326,7 +96318,7 @@ ${config2.themeCSS}`;
 };
 const createUserStyles = (config2, graphType, classDefs, svgId) => {
   const userCSSstyles = createCssStyles(config2, graphType, classDefs);
-  const allStyles = getStyles$2(graphType, userCSSstyles, config2.themeVariables);
+  const allStyles = getStyles$1(graphType, userCSSstyles, config2.themeVariables);
   return (0,stylis__WEBPACK_IMPORTED_MODULE_13__.serialize)((0,stylis__WEBPACK_IMPORTED_MODULE_14__.compile)(`${svgId}{${allStyles}}`), stylis__WEBPACK_IMPORTED_MODULE_13__.stringify);
 };
 const cleanUpSvgCode = (svgCode = "", inSandboxMode, useArrowMarkerUrls) => {
@@ -96342,7 +96334,8 @@ const cleanUpSvgCode = (svgCode = "", inSandboxMode, useArrowMarkerUrls) => {
   return cleanedUpSvg;
 };
 const putIntoIFrame = (svgCode = "", svgElement) => {
-  const height = svgElement ? svgElement.viewBox.baseVal.height + "px" : IFRAME_HEIGHT;
+  var _a, _b;
+  const height = ((_b = (_a = svgElement == null ? void 0 : svgElement.viewBox) == null ? void 0 : _a.baseVal) == null ? void 0 : _b.height) ? svgElement.viewBox.baseVal.height + "px" : IFRAME_HEIGHT;
   const base64encodedSrc = btoa('<body style="' + IFRAME_BODY_STYLE + '">' + svgCode + "</body>");
   return `<iframe style="width:${IFRAME_WIDTH};height:${height};${IFRAME_STYLES}" src="data:text/html;base64,${base64encodedSrc}" sandbox="${IFRAME_SANDBOX_OPTS}">
   ${IFRAME_NOT_SUPPORTED_MSG}
@@ -102766,7 +102759,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom/client */ "./node_modules/react-dom/client.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var _css_styles_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../css/styles.css */ "./src/main/webapp/css/styles.css");
 /* harmony import */ var _StarWars__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./StarWars */ "./src/main/webapp/javascript/StarWars.tsx");
 /* harmony import */ var _Game__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Game */ "./src/main/webapp/javascript/Game.tsx");
@@ -102797,7 +102789,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 function Layout() {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("nav", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Link, {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("nav", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Link, {
     to: "/"
   }, "Main"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Link, {
     to: "lcs"
@@ -102817,7 +102809,7 @@ function Layout() {
     to: "sliding"
   }, "Sliding"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Link, {
     to: "parse"
-  }, "Parse")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Outlet, null));
+  }, "Parse")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Outlet, null));
 }
 function Main() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
@@ -102825,49 +102817,49 @@ function Main() {
     interestingEvents = _useState2[0],
     setInterestingEvents = _useState2[1]; // start with an empty list of zero people
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().StrictMode), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.BrowserRouter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Routes, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().StrictMode), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.BrowserRouter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Routes, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Route, {
     path: "/app3?/src?/main?/resources?/static?/index.html?",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Layout, null)
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Route, {
     index: true,
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", null, "Welcome!!!")
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Route, {
     path: "lcs",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_LCS__WEBPACK_IMPORTED_MODULE_9__["default"], {
       setInterestingEvents: setInterestingEvents
     })
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Route, {
     path: "34yield",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Coroutine__WEBPACK_IMPORTED_MODULE_6__["default"], {
       setInterestingEvents: setInterestingEvents
     })
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Route, {
     path: "shiftMerge",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ShiftMerge__WEBPACK_IMPORTED_MODULE_7__["default"], {
       setInterestingEvents: setInterestingEvents
     })
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Route, {
     path: "indexMerge",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_IndexMerge__WEBPACK_IMPORTED_MODULE_8__["default"], {
       setInterestingEvents: setInterestingEvents
     })
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Route, {
     path: "starwars",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_StarWars__WEBPACK_IMPORTED_MODULE_3__["default"], {
       setInterestingEvents: setInterestingEvents
     })
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Route, {
     path: "game",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Game__WEBPACK_IMPORTED_MODULE_4__["default"], {
       setInterestingEvents: setInterestingEvents
     })
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Route, {
     path: "34",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ThreeFour__WEBPACK_IMPORTED_MODULE_5__["default"], null)
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Route, {
     path: "sliding",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Sliding__WEBPACK_IMPORTED_MODULE_11__["default"], null)
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Route, {
     path: "parse",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Parse__WEBPACK_IMPORTED_MODULE_10__["default"], null)
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ol", null, interestingEvents.map(function (note, idx) {
