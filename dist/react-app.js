@@ -57,6 +57,378 @@ exports.sanitizeUrl = sanitizeUrl;
 
 /***/ }),
 
+/***/ "./node_modules/@react-css/grid/dist/index.js":
+/*!****************************************************!*\
+  !*** ./node_modules/@react-css/grid/dist/index.js ***!
+  \****************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Grid = void 0;
+const GridWrapper_1 = __importDefault(__webpack_require__(/*! ./src/components/GridWrapper */ "./node_modules/@react-css/grid/dist/src/components/GridWrapper.js"));
+exports.Grid = GridWrapper_1.default;
+exports["default"] = GridWrapper_1.default;
+
+
+/***/ }),
+
+/***/ "./node_modules/@react-css/grid/dist/src/components/GridContainer.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@react-css/grid/dist/src/components/GridContainer.js ***!
+  \***************************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+const overlapping_1 = __webpack_require__(/*! ../helpers/overlapping */ "./node_modules/@react-css/grid/dist/src/helpers/overlapping.js");
+const trim_1 = __webpack_require__(/*! ../helpers/trim */ "./node_modules/@react-css/grid/dist/src/helpers/trim.js");
+function GridContainer({ inline, columns, rows, areas, template, gap, gridGap, columnGap, rowGap, justifyItemsStart, justifyItemsEnd, justifyItemsCenter, justifyItemsStretch, justifyItems, alignItemsStart, alignItemsEnd, alignItemsCenter, alignItemsStretch, alignItems, placeItems, justifyContentStart, justifyContentEnd, justifyContentCenter, justifyContentStretch, justifyContentSpaceAround, justifyContentSpaceBetween, justifyContentSpaceEvenly, justifyContent, alignContentStart, alignContentEnd, alignContentCenter, alignContentStretch, alignContentSpaceAround, alignContentSpaceBetween, alignContentSpaceEvenly, alignContent, placeContent, autoFlowRow, autoFlowColumn, autoFlowDense, autoFlow, autoRows, autoColumns, as: tagName, style = {}, children, ...rest }) {
+    const displayStyle = react_1.default.useMemo(() => ({
+        display: inline ? 'inline-grid' : 'grid',
+    }), [inline]);
+    const gridTemplateColumnsStyle = react_1.default.useMemo(() => ({
+        gridTemplateColumns: columns,
+    }), [columns]);
+    const gridTemplateRowsStyle = react_1.default.useMemo(() => ({
+        gridTemplateRows: rows,
+    }), [rows]);
+    const gridTemplateAreasStyle = react_1.default.useMemo(() => ({
+        gridTemplateAreas: areas,
+    }), [areas]);
+    const gridTemplateStyle = react_1.default.useMemo(() => ({
+        gridTemplate: template,
+    }), [template]);
+    const gridGapStyle = react_1.default.useMemo(() => ({
+        gap: gap || gridGap,
+        gridGap: gap || gridGap,
+    }), [gap, gridGap]);
+    const gridColumnGapStyle = react_1.default.useMemo(() => ({
+        columnGap,
+        gridColumnGap: columnGap,
+    }), [columnGap]);
+    const gridRowGapStyle = react_1.default.useMemo(() => ({
+        rowGap,
+        gridRowGap: rowGap,
+    }), [rowGap]);
+    const justifyItemsStyle = react_1.default.useMemo(() => {
+        if (justifyItems)
+            return { justifyItems };
+        (0, overlapping_1.checkOverlapping)('justify-items', justifyItemsStart, justifyItemsEnd, justifyItemsCenter, justifyItemsStretch);
+        let value = null;
+        if (justifyItemsStart)
+            value = 'start';
+        else if (justifyItemsEnd)
+            value = 'end';
+        else if (justifyItemsCenter)
+            value = 'center';
+        else if (justifyItemsStretch)
+            value = 'stretch';
+        return value ? { justifyItems: value } : {};
+    }, [justifyItems, justifyItemsStart, justifyItemsEnd, justifyItemsCenter, justifyItemsStretch]);
+    const alignItemsStyle = react_1.default.useMemo(() => {
+        if (alignItems)
+            return { alignItems };
+        (0, overlapping_1.checkOverlapping)('align-items', alignItemsStart, alignItemsEnd, alignItemsCenter, alignItemsStretch);
+        let value = null;
+        if (alignItemsStart)
+            value = 'start';
+        else if (alignItemsEnd)
+            value = 'end';
+        else if (alignItemsCenter)
+            value = 'center';
+        else if (alignItemsStretch)
+            value = 'stretch';
+        return value ? { alignItems: value } : {};
+    }, [alignItems, alignItemsStart, alignItemsEnd, alignItemsCenter, alignItemsStretch]);
+    const placeItemsStyle = react_1.default.useMemo(() => ({
+        placeItems,
+    }), [placeItems]);
+    const justifyContentStyle = react_1.default.useMemo(() => {
+        if (justifyContent)
+            return { justifyContent };
+        (0, overlapping_1.checkOverlapping)('justify-content', justifyContentStart, justifyContentEnd, justifyContentCenter, justifyContentStretch, justifyContentSpaceAround, justifyContentSpaceBetween, justifyContentSpaceEvenly);
+        let value = null;
+        if (justifyContentStart)
+            value = 'start';
+        else if (justifyContentEnd)
+            value = 'end';
+        else if (justifyContentCenter)
+            value = 'center';
+        else if (justifyContentStretch)
+            value = 'stretch';
+        else if (justifyContentSpaceAround)
+            value = 'space-around';
+        else if (justifyContentSpaceBetween)
+            value = 'space-between';
+        else if (justifyContentSpaceEvenly)
+            value = 'space-evenly';
+        return value ? { justifyContent: value } : {};
+    }, [
+        justifyContent,
+        justifyContentStart,
+        justifyContentEnd,
+        justifyContentCenter,
+        justifyContentStretch,
+        justifyContentSpaceAround,
+        justifyContentSpaceBetween,
+        justifyContentSpaceEvenly,
+    ]);
+    const alignContentStyle = react_1.default.useMemo(() => {
+        if (alignContent)
+            return { alignContent };
+        (0, overlapping_1.checkOverlapping)('align-content', alignContentStart, alignContentEnd, alignContentCenter, alignContentStretch, alignContentSpaceAround, alignContentSpaceBetween, alignContentSpaceEvenly);
+        let value = null;
+        if (alignContentStart)
+            value = 'start';
+        else if (alignContentEnd)
+            value = 'end';
+        else if (alignContentCenter)
+            value = 'center';
+        else if (alignContentStretch)
+            value = 'stretch';
+        else if (alignContentSpaceAround)
+            value = 'space-around';
+        else if (alignContentSpaceBetween)
+            value = 'space-between';
+        else if (alignContentSpaceEvenly)
+            value = 'space-evenly';
+        return value ? { alignContent: value } : {};
+    }, [
+        alignContent,
+        alignContentStart,
+        alignContentEnd,
+        alignContentCenter,
+        alignContentStretch,
+        alignContentSpaceAround,
+        alignContentSpaceBetween,
+        alignContentSpaceEvenly,
+    ]);
+    const placeContentStyle = react_1.default.useMemo(() => ({
+        placeContent,
+    }), [placeContent]);
+    const gridAutoFlowStyle = react_1.default.useMemo(() => {
+        if (autoFlow)
+            return { gridAutoFlow: autoFlow };
+        (0, overlapping_1.checkOverlapping)('grid-auto-flow', autoFlowRow, autoFlowColumn, autoFlowDense);
+        let value = null;
+        if (autoFlowRow)
+            value = 'row';
+        else if (autoFlowColumn)
+            value = 'column';
+        else if (autoFlowDense)
+            value = 'dense';
+        return value ? { gridAutoFlow: value } : {};
+    }, [autoFlow, autoFlowRow, autoFlowColumn, autoFlowDense]);
+    const gridAutoRowsStyle = react_1.default.useMemo(() => ({
+        gridAutoRows: autoRows,
+    }), [autoRows]);
+    const gridAutoColumnsStyle = react_1.default.useMemo(() => ({
+        gridAutoColumns: autoColumns,
+    }), [autoColumns]);
+    const combinedStyle = (0, trim_1.trimUndefined)({
+        ...displayStyle,
+        ...gridTemplateColumnsStyle,
+        ...gridTemplateRowsStyle,
+        ...gridTemplateAreasStyle,
+        ...gridTemplateStyle,
+        ...gridGapStyle,
+        ...gridColumnGapStyle,
+        ...gridRowGapStyle,
+        ...justifyItemsStyle,
+        ...alignItemsStyle,
+        ...placeItemsStyle,
+        ...justifyContentStyle,
+        ...alignContentStyle,
+        ...placeContentStyle,
+        ...gridAutoFlowStyle,
+        ...gridAutoRowsStyle,
+        ...gridAutoColumnsStyle,
+        ...style,
+    });
+    const Tag = (tagName !== null && tagName !== void 0 ? tagName : 'div');
+    return (react_1.default.createElement(Tag, { style: combinedStyle, ...rest }, children));
+}
+exports["default"] = GridContainer;
+
+
+/***/ }),
+
+/***/ "./node_modules/@react-css/grid/dist/src/components/GridItem.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@react-css/grid/dist/src/components/GridItem.js ***!
+  \**********************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+const overlapping_1 = __webpack_require__(/*! ../helpers/overlapping */ "./node_modules/@react-css/grid/dist/src/helpers/overlapping.js");
+const trim_1 = __webpack_require__(/*! ../helpers/trim */ "./node_modules/@react-css/grid/dist/src/helpers/trim.js");
+function GridItem({ columnStart, columnEnd, column, rowStart, rowEnd, row, area, justifySelfStart, justifySelfEnd, justifySelfCenter, justifySelfStretch, justifySelf, alignSelfStart, alignSelfEnd, alignSelfCenter, alignSelfStretch, alignSelf, placeSelf, as: tagName, style = {}, children, ...rest }) {
+    const gridColumnStartStyle = react_1.default.useMemo(() => ({
+        gridColumnStart: columnStart,
+    }), [columnStart]);
+    const gridColumnEndStyle = react_1.default.useMemo(() => ({
+        gridColumnEnd: columnEnd,
+    }), [columnEnd]);
+    const gridColumnStyle = react_1.default.useMemo(() => ({
+        gridColumn: column,
+    }), [column]);
+    const gridRowStartStyle = react_1.default.useMemo(() => ({
+        gridRowStart: rowStart,
+    }), [rowStart]);
+    const gridRowEndStyle = react_1.default.useMemo(() => ({
+        gridRowEnd: rowEnd,
+    }), [rowEnd]);
+    const gridRowStyle = react_1.default.useMemo(() => ({
+        gridRow: row,
+    }), [row]);
+    const gridAreaStyle = react_1.default.useMemo(() => ({
+        gridArea: area,
+    }), [area]);
+    const justifySelfStyle = react_1.default.useMemo(() => {
+        if (justifySelf)
+            return { justifySelf };
+        (0, overlapping_1.checkOverlapping)('justify-self', justifySelfStart, justifySelfEnd, justifySelfCenter, justifySelfStretch);
+        let value = null;
+        if (justifySelfStart)
+            value = 'start';
+        else if (justifySelfEnd)
+            value = 'end';
+        else if (justifySelfCenter)
+            value = 'center';
+        else if (justifySelfStretch)
+            value = 'stretch';
+        return value ? { justifySelf: value } : {};
+    }, [justifySelf, justifySelfStart, justifySelfEnd, justifySelfCenter, justifySelfStretch]);
+    const alignSelfStyle = react_1.default.useMemo(() => {
+        if (alignSelf)
+            return { alignSelf };
+        (0, overlapping_1.checkOverlapping)('align-self', alignSelfStart, alignSelfEnd, alignSelfCenter, alignSelfStretch);
+        let value = null;
+        if (alignSelfStart)
+            value = 'start';
+        else if (alignSelfEnd)
+            value = 'end';
+        else if (alignSelfCenter)
+            value = 'center';
+        else if (alignSelfStretch)
+            value = 'stretch';
+        return value ? { alignSelf: value } : {};
+    }, [alignSelf, alignSelfStart, alignSelfEnd, alignSelfCenter, alignSelfStretch]);
+    const placeSelfStyle = react_1.default.useMemo(() => ({
+        placeSelf,
+    }), [placeSelf]);
+    const combinedStyle = (0, trim_1.trimUndefined)({
+        ...gridColumnStartStyle,
+        ...gridColumnEndStyle,
+        ...gridColumnStyle,
+        ...gridRowStartStyle,
+        ...gridRowEndStyle,
+        ...gridRowStyle,
+        ...gridAreaStyle,
+        ...justifySelfStyle,
+        ...alignSelfStyle,
+        ...placeSelfStyle,
+        ...style,
+    });
+    const Tag = (tagName !== null && tagName !== void 0 ? tagName : 'div');
+    return (react_1.default.createElement(Tag, { style: combinedStyle, ...rest }, children));
+}
+exports["default"] = GridItem;
+
+
+/***/ }),
+
+/***/ "./node_modules/@react-css/grid/dist/src/components/GridWrapper.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@react-css/grid/dist/src/components/GridWrapper.js ***!
+  \*************************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Grid = void 0;
+const react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+const GridItem_1 = __importDefault(__webpack_require__(/*! ./GridItem */ "./node_modules/@react-css/grid/dist/src/components/GridItem.js"));
+const GridContainer_1 = __importDefault(__webpack_require__(/*! ./GridContainer */ "./node_modules/@react-css/grid/dist/src/components/GridContainer.js"));
+class Grid extends react_1.default.Component {
+    render() {
+        return react_1.default.createElement(GridContainer_1.default, { ...this.props });
+    }
+}
+exports.Grid = Grid;
+Grid.Item = GridItem_1.default;
+exports["default"] = Grid;
+
+
+/***/ }),
+
+/***/ "./node_modules/@react-css/grid/dist/src/helpers/overlapping.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@react-css/grid/dist/src/helpers/overlapping.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.checkOverlapping = void 0;
+const checkOverlapping = (propName, ...props) => {
+    let foundOne = false;
+    props.forEach((prop) => {
+        if (prop) {
+            if (foundOne) {
+                console.warn(`[@react-css/grid] Multiple values have been provided for ${propName}.`);
+                return;
+            }
+            foundOne = true;
+        }
+    });
+};
+exports.checkOverlapping = checkOverlapping;
+
+
+/***/ }),
+
+/***/ "./node_modules/@react-css/grid/dist/src/helpers/trim.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@react-css/grid/dist/src/helpers/trim.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.trimUndefined = void 0;
+const trimUndefined = (style) => {
+    style = { ...style };
+    Object.keys(style).forEach((key) => style[key] === undefined && delete style[key]);
+    return style;
+};
+exports.trimUndefined = trimUndefined;
+
+
+/***/ }),
+
 /***/ "./node_modules/@remix-run/router/dist/router.js":
 /*!*******************************************************!*\
   !*** ./node_modules/@remix-run/router/dist/router.js ***!
@@ -4144,6 +4516,52 @@ function getDoneFetcher(data) {
 
 /***/ }),
 
+/***/ "./src/main/webapp/javascript/API.tsx":
+/*!********************************************!*\
+  !*** ./src/main/webapp/javascript/API.tsx ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ API)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function API() {
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
+    _useState2 = _slicedToArray(_useState, 2),
+    val = _useState2[0],
+    setVal = _useState2[1];
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
+    _useState4 = _slicedToArray(_useState3, 2),
+    result = _useState4[0],
+    setResult = _useState4[1];
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    fetch("/api/double/".concat(val)).then(function (response) {
+      return response.json().then(function (o) {
+        return setResult(JSON.stringify(o));
+      });
+    });
+  }, [val]);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, "Input: ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+    value: val,
+    onChange: function onChange(e) {
+      return setVal(e.target.value);
+    }
+  }), "Output: ", result);
+}
+
+/***/ }),
+
 /***/ "./src/main/webapp/javascript/Coroutine.tsx":
 /*!**************************************************!*\
   !*** ./src/main/webapp/javascript/Coroutine.tsx ***!
@@ -4383,13 +4801,15 @@ function FlowChart(_ref) {
     states.forEach(function (state, index) {
       if (state && state.breakpoint) {
         var node = state.breakpoint.replaceAll(" ", "_");
-        if (priorNode) paths.push(" ".concat(priorNode, "-->|\"").concat(index, "\"|").concat(node));
+        if (priorNode) paths.push(" ".concat(priorNode, "---->|\"").concat(index, "\"|").concat(node));
         priorNode = node;
       }
     });
     return paths.join("\n");
   };
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null,  false && /*#__PURE__*/0, states.length > 1 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Mermaid__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: toggleRotate
+  }, "Rotate"),  false && /*#__PURE__*/0, states.length > 1 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Mermaid__WEBPACK_IMPORTED_MODULE_1__["default"], {
     chart: diagram(),
     config: undefined
   }));
@@ -4467,6 +4887,337 @@ function Game(_ref) {
 function HappySad(_ref2) {
   var happy = _ref2.happy;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, happy ? ":-)" : ":-(");
+}
+
+/***/ }),
+
+/***/ "./src/main/webapp/javascript/HeapSort.tsx":
+/*!*************************************************!*\
+  !*** ./src/main/webapp/javascript/HeapSort.tsx ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ HeapSort)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _FlowChart__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FlowChart */ "./src/main/webapp/javascript/FlowChart.tsx");
+/* harmony import */ var _RedGreenArray__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./RedGreenArray */ "./src/main/webapp/javascript/RedGreenArray.tsx");
+/* harmony import */ var _statesWrapper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./statesWrapper */ "./src/main/webapp/javascript/statesWrapper.tsx");
+/* harmony import */ var _react_css_grid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @react-css/grid */ "./node_modules/@react-css/grid/dist/index.js");
+/* harmony import */ var _react_css_grid__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_react_css_grid__WEBPACK_IMPORTED_MODULE_4__);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return { value: void 0, done: !0 }; } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var methodName = context.method, method = delegate.iterator[methodName]; if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel; var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable || "" === iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; return next.value = undefined, next.done = !0, next; }; return next.next = next; } } throw new TypeError(_typeof(iterable) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) keys.push(key); return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+
+
+
+
+
+function logic(input) {
+  var _marked = /*#__PURE__*/_regeneratorRuntime().mark(iter);
+  var data = {
+    counter: 0,
+    breakpoint: "START",
+    array: _toConsumableArray(input),
+    heapify_index: Math.floor(input.length / 2) - 1,
+    siftdown_root: -1,
+    siftdown_end: -1
+  };
+  function iter() {
+    var swap, leftChild, _ref, _ref2, _swap, _leftChild, _ref3;
+    return _regeneratorRuntime().wrap(function iter$(_context) {
+      while (1) switch (_context.prev = _context.next) {
+        case 0:
+          data.siftdown_end = data.array.length;
+          _context.next = 3;
+          return "START";
+        case 3:
+          _context.next = 5;
+          return "HEAPIFY_LOOP";
+        case 5:
+          _context.t0 = _context.sent;
+          if (!_context.t0) {
+            _context.next = 8;
+            break;
+          }
+          _context.t0 = data.heapify_index >= 0;
+        case 8:
+          if (!_context.t0) {
+            _context.next = 33;
+            break;
+          }
+          data.siftdown_root = data.heapify_index;
+        case 10:
+          _context.next = 12;
+          return "SIFTDOWN_LOOP";
+        case 12:
+          _context.t1 = _context.sent;
+          if (!_context.t1) {
+            _context.next = 15;
+            break;
+          }
+          _context.t1 = 2 * data.siftdown_root + 1 < data.siftdown_end;
+        case 15:
+          if (!_context.t1) {
+            _context.next = 30;
+            break;
+          }
+          swap = data.siftdown_root;
+          leftChild = 2 * data.siftdown_root + 1;
+          if (data.array[swap] < data.array[leftChild]) swap = leftChild;
+          if (leftChild + 1 < data.siftdown_end && data.array[swap] < data.array[leftChild + 1]) swap = leftChild + 1;
+          if (!(swap == data.siftdown_root)) {
+            _context.next = 22;
+            break;
+          }
+          return _context.abrupt("break", 30);
+        case 22:
+          _context.next = 24;
+          return "SIFTDOWN_SWAP";
+        case 24:
+          _ref = [data.array[data.siftdown_root], data.array[swap]];
+          data.array[swap] = _ref[0];
+          data.array[data.siftdown_root] = _ref[1];
+          data.siftdown_root = swap;
+          _context.next = 10;
+          break;
+        case 30:
+          data.heapify_index--;
+          _context.next = 3;
+          break;
+        case 33:
+          _context.next = 35;
+          return "MAIN_LOOP";
+        case 35:
+          _context.t2 = _context.sent;
+          if (!_context.t2) {
+            _context.next = 38;
+            break;
+          }
+          _context.t2 = data.siftdown_end > 1;
+        case 38:
+          if (!_context.t2) {
+            _context.next = 74;
+            break;
+          }
+          data.siftdown_root = -1;
+          _context.next = 42;
+          return "MOVE TO END";
+        case 42:
+          _ref2 = [data.array[0], data.array[data.siftdown_end - 1]];
+          data.array[data.siftdown_end - 1] = _ref2[0];
+          data.array[0] = _ref2[1];
+          data.siftdown_end--;
+          data.siftdown_root = 0;
+        case 47:
+          _context.next = 49;
+          return "SIFTDOWN_LOOP2";
+        case 49:
+          _context.t3 = _context.sent;
+          if (!_context.t3) {
+            _context.next = 52;
+            break;
+          }
+          _context.t3 = 2 * data.siftdown_root + 1 < data.siftdown_end;
+        case 52:
+          if (!_context.t3) {
+            _context.next = 72;
+            break;
+          }
+          _swap = data.siftdown_root;
+          _leftChild = 2 * data.siftdown_root + 1;
+          if (data.array[_swap] < data.array[_leftChild]) _swap = _leftChild;
+          if (_leftChild + 1 < data.siftdown_end && data.array[_swap] < data.array[_leftChild + 1]) _swap = _leftChild + 1;
+          _context.t4 = _swap == data.siftdown_root;
+          if (!_context.t4) {
+            _context.next = 62;
+            break;
+          }
+          _context.next = 61;
+          return "SIFTDOWN_DONE2";
+        case 61:
+          _context.t4 = _context.sent;
+        case 62:
+          if (!_context.t4) {
+            _context.next = 64;
+            break;
+          }
+          return _context.abrupt("break", 72);
+        case 64:
+          _context.next = 66;
+          return "SIFTDOWN_SWAP2";
+        case 66:
+          _ref3 = [data.array[data.siftdown_root], data.array[_swap]];
+          data.array[_swap] = _ref3[0];
+          data.array[data.siftdown_root] = _ref3[1];
+          data.siftdown_root = _swap;
+          _context.next = 47;
+          break;
+        case 72:
+          _context.next = 33;
+          break;
+        case 74:
+          _context.next = 76;
+          return "DONE";
+        case 76:
+        case "end":
+          return _context.stop();
+      }
+    }, _marked);
+  }
+  var runner = iter();
+  return {
+    getSource: function getSource() {
+      return iter.toString();
+    },
+    getData: function getData() {
+      return data;
+    },
+    next: function next() {
+      data.breakpoint = runner.next.apply(runner, arguments).value;
+      data.counter++;
+    }
+  };
+}
+function HeapSort(_ref4) {
+  var _state$array;
+  var setInterestingEvents = _ref4.setInterestingEvents;
+  var initialExample = [54, 34, 18, 23, 4, 67, 3, 10, 18, 4, 2, 19, 5, 8, 22, 30];
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(initialExample.length),
+    _useState2 = _slicedToArray(_useState, 2),
+    exampleSize = _useState2[0],
+    setExampleSize = _useState2[1];
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)((0,_statesWrapper__WEBPACK_IMPORTED_MODULE_3__["default"])(logic(initialExample))),
+    _useState4 = _slicedToArray(_useState3, 2),
+    algorithm = _useState4[0],
+    setAlgorithm = _useState4[1];
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(1),
+    _useState6 = _slicedToArray(_useState5, 2),
+    cycle = _useState6[0],
+    setCycle = _useState6[1];
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(new Array()),
+    _useState8 = _slicedToArray(_useState7, 2),
+    states = _useState8[0],
+    setStates = _useState8[1];
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    setInterestingEvents && setInterestingEvents(function (events) {
+      return [].concat(_toConsumableArray(events), ["IndexMerge"]);
+    });
+  }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    return setStates(algorithm.getStates(cycle));
+  }, [cycle, algorithm]);
+  var tickToEnd = function tickToEnd() {
+    var c = cycle;
+    do {
+      c++;
+    } while (algorithm.getStates(c).slice(-1)[0].breakpoint !== "DONE" && algorithm.getStates(c).slice(-1)[0].breakpoint !== "NULL STATE");
+    setCycle(c);
+  };
+  var tick = function tick(direction) {
+    return setCycle(function (cycle) {
+      return Math.max(cycle + direction, 1);
+    });
+  };
+  var onWheel = function onWheel(e) {
+    e.stopPropagation();
+    if (e.deltaY > 0) tick(1);else if (e.deltaY < 0) tick(-1);
+  };
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    var newExample = new Array();
+    for (var i = 0; i < exampleSize; i++) newExample.push(Math.floor(100 * Math.random()));
+    setCycle(1);
+    setStates(new Array());
+    setAlgorithm((0,_statesWrapper__WEBPACK_IMPORTED_MODULE_3__["default"])(logic(newExample)));
+  }, [exampleSize]);
+  var state = states.slice(-1)[0];
+  var len = state === null || state === void 0 || (_state$array = state.array) === null || _state$array === void 0 ? void 0 : _state$array.length;
+  window.scrollTo(0, 0);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    onWheel: onWheel
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: function onClick() {
+      return setExampleSize(function (size) {
+        return size - 1;
+      });
+    }
+  }, "--"), exampleSize, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: function onClick() {
+      return setExampleSize(function (size) {
+        return size + 1;
+      });
+    }
+  }, "++"), len && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "heapsort"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((_react_css_grid__WEBPACK_IMPORTED_MODULE_4___default()), {
+    columns: "auto ".repeat(1 << 31 - Math.clz32(len))
+  }, state.array.map(function (val, index) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((_react_css_grid__WEBPACK_IMPORTED_MODULE_4___default().Item), {
+      key: index,
+      row: 32 - Math.clz32(index + 1),
+      columnStart: 1 + (index + 1 - (1 << 31 - Math.clz32(index + 1)) << Math.clz32(index + 1) - Math.clz32(len)),
+      columnEnd: 1 + (index + 2 - (1 << 31 - Math.clz32(index + 1)) << Math.clz32(index + 1) - Math.clz32(len))
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(HeapEntry, {
+      index: index,
+      val: val,
+      state: state
+    }));
+  }), Math.clz32(len) == Math.clz32(len + 1) && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((_react_css_grid__WEBPACK_IMPORTED_MODULE_4___default().Item), {
+    className: "remaining",
+    key: -1,
+    row: 32 - Math.clz32(len + 1),
+    columnStart: len + 2 - (1 << 31 - Math.clz32(len + 1)),
+    columnEnd: 1 + (1 << 31 - Math.clz32(len))
+  }, "_"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: function onClick() {
+      return tick(-1);
+    }
+  }, " back "), states.length && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: function onClick() {
+      return tick(1);
+    }
+  }, JSON.stringify(states.slice(-1)[0].breakpoint)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: tickToEnd
+  }, "tickToEnd")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "horizontalFlex"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("table", {
+    border: 1
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tbody", null, _toConsumableArray(states).reverse().map(function (state, index) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_RedGreenArray__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      key: index,
+      step: state.breakpoint,
+      data: state.array,
+      blueIndex: state.heapify_index,
+      redIndex: state.siftdown_root,
+      greenIndex: state.siftdown_end
+    });
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_FlowChart__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    states: states
+  })));
+}
+function HeapEntry(_ref5) {
+  var index = _ref5.index,
+    val = _ref5.val,
+    state = _ref5.state;
+  var c = "";
+  if (index >= state.siftdown_end) c = "complete";
+  if (state.siftdown_root >= 0 && index < state.siftdown_end) if (index + 1 >> Math.clz32(state.siftdown_root + 1) - Math.clz32(index + 1) == state.siftdown_root + 1) c = "siftdown";
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: c
+  }, val);
 }
 
 /***/ }),
@@ -6072,68 +6823,6 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.react-calendar {
   background-color: #e6e6e6;
 }
 `, "",{"version":3,"sources":["webpack://./node_modules/react-calendar/dist/Calendar.css"],"names":[],"mappings":"AAAA;EACE,YAAY;EACZ,eAAe;EACf,iBAAiB;EACjB,yBAAyB;EACzB,yCAAyC;EACzC,oBAAoB;AACtB;;AAEA;EACE,YAAY;AACd;;AAEA;EACE,aAAa;EACb,cAAc;AAChB;;AAEA;EACE,UAAU;EACV,aAAa;AACf;;AAEA;;;;EAIE,2BAA2B;EAC3B,8BAA8B;EAC9B,sBAAsB;AACxB;;AAEA;EACE,SAAS;EACT,SAAS;EACT,aAAa;AACf;;AAEA;EACE,eAAe;AACjB;;AAEA;EACE,aAAa;EACb,YAAY;EACZ,kBAAkB;AACpB;;AAEA;EACE,eAAe;EACf,gBAAgB;AAClB;;AAEA;EACE,yBAAyB;AAC3B;;AAEA;;EAEE,yBAAyB;AAC3B;;AAEA;EACE,kBAAkB;EAClB,yBAAyB;EACzB,iBAAiB;EACjB,iBAAiB;AACnB;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE,aAAa;EACb,mBAAmB;EACnB,uBAAuB;EACvB,iBAAiB;EACjB,iBAAiB;AACnB;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE,cAAc;AAChB;;AAEA;;;EAGE,kBAAkB;AACpB;;AAEA;EACE,eAAe;EACf,sBAAsB;EACtB,gBAAgB;EAChB,kBAAkB;EAClB,iBAAiB;AACnB;;AAEA;EACE,yBAAyB;AAC3B;;AAEA;;EAEE,yBAAyB;AAC3B;;AAEA;EACE,mBAAmB;AACrB;;AAEA;;EAEE,mBAAmB;AACrB;;AAEA;EACE,mBAAmB;AACrB;;AAEA;;EAEE,mBAAmB;AACrB;;AAEA;EACE,mBAAmB;EACnB,YAAY;AACd;;AAEA;;EAEE,mBAAmB;AACrB;;AAEA;EACE,yBAAyB;AAC3B","sourcesContent":[".react-calendar {\n  width: 350px;\n  max-width: 100%;\n  background: white;\n  border: 1px solid #a0a096;\n  font-family: Arial, Helvetica, sans-serif;\n  line-height: 1.125em;\n}\n\n.react-calendar--doubleView {\n  width: 700px;\n}\n\n.react-calendar--doubleView .react-calendar__viewContainer {\n  display: flex;\n  margin: -0.5em;\n}\n\n.react-calendar--doubleView .react-calendar__viewContainer > * {\n  width: 50%;\n  margin: 0.5em;\n}\n\n.react-calendar,\n.react-calendar *,\n.react-calendar *:before,\n.react-calendar *:after {\n  -moz-box-sizing: border-box;\n  -webkit-box-sizing: border-box;\n  box-sizing: border-box;\n}\n\n.react-calendar button {\n  margin: 0;\n  border: 0;\n  outline: none;\n}\n\n.react-calendar button:enabled:hover {\n  cursor: pointer;\n}\n\n.react-calendar__navigation {\n  display: flex;\n  height: 44px;\n  margin-bottom: 1em;\n}\n\n.react-calendar__navigation button {\n  min-width: 44px;\n  background: none;\n}\n\n.react-calendar__navigation button:disabled {\n  background-color: #f0f0f0;\n}\n\n.react-calendar__navigation button:enabled:hover,\n.react-calendar__navigation button:enabled:focus {\n  background-color: #e6e6e6;\n}\n\n.react-calendar__month-view__weekdays {\n  text-align: center;\n  text-transform: uppercase;\n  font-weight: bold;\n  font-size: 0.75em;\n}\n\n.react-calendar__month-view__weekdays__weekday {\n  padding: 0.5em;\n}\n\n.react-calendar__month-view__weekNumbers .react-calendar__tile {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 0.75em;\n  font-weight: bold;\n}\n\n.react-calendar__month-view__days__day--weekend {\n  color: #d10000;\n}\n\n.react-calendar__month-view__days__day--neighboringMonth {\n  color: #757575;\n}\n\n.react-calendar__year-view .react-calendar__tile,\n.react-calendar__decade-view .react-calendar__tile,\n.react-calendar__century-view .react-calendar__tile {\n  padding: 2em 0.5em;\n}\n\n.react-calendar__tile {\n  max-width: 100%;\n  padding: 10px 6.6667px;\n  background: none;\n  text-align: center;\n  line-height: 16px;\n}\n\n.react-calendar__tile:disabled {\n  background-color: #f0f0f0;\n}\n\n.react-calendar__tile:enabled:hover,\n.react-calendar__tile:enabled:focus {\n  background-color: #e6e6e6;\n}\n\n.react-calendar__tile--now {\n  background: #ffff76;\n}\n\n.react-calendar__tile--now:enabled:hover,\n.react-calendar__tile--now:enabled:focus {\n  background: #ffffa9;\n}\n\n.react-calendar__tile--hasActive {\n  background: #76baff;\n}\n\n.react-calendar__tile--hasActive:enabled:hover,\n.react-calendar__tile--hasActive:enabled:focus {\n  background: #a9d4ff;\n}\n\n.react-calendar__tile--active {\n  background: #006edc;\n  color: white;\n}\n\n.react-calendar__tile--active:enabled:hover,\n.react-calendar__tile--active:enabled:focus {\n  background: #1087ff;\n}\n\n.react-calendar--selectRange .react-calendar__tile--hover {\n  background-color: #e6e6e6;\n}\n"],"sourceRoot":""}]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/dist/cjs.js!./src/main/webapp/css/styles.css":
-/*!******************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./src/main/webapp/css/styles.css ***!
-  \******************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/sourceMaps.js */ "./node_modules/css-loader/dist/runtime/sourceMaps.js");
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-// Imports
-
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, `nav {
-  display: flex;
-  justify-content: space-evenly;
-}
-
-.red {
-  background-color: red;
-}
-
-.blue {
-  background-color: blue;
-}
-
-.green {
-  background-color: green;
-}
-
-.redgreen {
-  background-color: purple;
-}
-
-.horizontalFlex {
-  display: flex;
-  flex-direction: row;
-  justify-content: left;
-}
-
-.five {
-  table-layout: fixed;
-  width: 100%;
-}
-
-.me {
-  transform: none;
-}
-`, "",{"version":3,"sources":["webpack://./src/main/webapp/css/styles.css"],"names":[],"mappings":"AAAA;EACE,aAAa;EACb,6BAA6B;AAC/B;;AAEA;EACE,qBAAqB;AACvB;;AAEA;EACE,sBAAsB;AACxB;;AAEA;EACE,uBAAuB;AACzB;;AAEA;EACE,wBAAwB;AAC1B;;AAEA;EACE,aAAa;EACb,mBAAmB;EACnB,qBAAqB;AACvB;;AAEA;EACE,mBAAmB;EACnB,WAAW;AACb;;AAEA;EACE,eAAe;AACjB","sourcesContent":["nav {\r\n  display: flex;\r\n  justify-content: space-evenly;\r\n}\r\n\r\n.red {\r\n  background-color: red;\r\n}\r\n\r\n.blue {\r\n  background-color: blue;\r\n}\r\n\r\n.green {\r\n  background-color: green;\r\n}\r\n\r\n.redgreen {\r\n  background-color: purple;\r\n}\r\n\r\n.horizontalFlex {\r\n  display: flex;\r\n  flex-direction: row;\r\n  justify-content: left;\r\n}\r\n\r\n.five {\r\n  table-layout: fixed;\r\n  width: 100%;\r\n}\r\n\r\n.me {\r\n  transform: none;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -53707,61 +54396,6 @@ var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMP
 
 
        /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_css_loader_dist_cjs_js_Calendar_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _css_loader_dist_cjs_js_Calendar_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _css_loader_dist_cjs_js_Calendar_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
-
-
-/***/ }),
-
-/***/ "./src/main/webapp/css/styles.css":
-/*!****************************************!*\
-  !*** ./src/main/webapp/css/styles.css ***!
-  \****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_styles_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!./styles.css */ "./node_modules/css-loader/dist/cjs.js!./src/main/webapp/css/styles.css");
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-var options = {};
-
-options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
-options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
-
-      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
-    
-options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
-options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_styles_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
-
-
-
-
-       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_styles_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_styles_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_styles_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
 
 
 /***/ }),
@@ -102758,18 +103392,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom/client */ "./node_modules/react-dom/client.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
-/* harmony import */ var _css_styles_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../css/styles.css */ "./src/main/webapp/css/styles.css");
-/* harmony import */ var _StarWars__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./StarWars */ "./src/main/webapp/javascript/StarWars.tsx");
-/* harmony import */ var _Game__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Game */ "./src/main/webapp/javascript/Game.tsx");
-/* harmony import */ var _ThreeFour__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ThreeFour */ "./src/main/webapp/javascript/ThreeFour.tsx");
-/* harmony import */ var _Coroutine__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Coroutine */ "./src/main/webapp/javascript/Coroutine.tsx");
-/* harmony import */ var _ShiftMerge__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ShiftMerge */ "./src/main/webapp/javascript/ShiftMerge.tsx");
-/* harmony import */ var _IndexMerge__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./IndexMerge */ "./src/main/webapp/javascript/IndexMerge.tsx");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var _StarWars__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./StarWars */ "./src/main/webapp/javascript/StarWars.tsx");
+/* harmony import */ var _Game__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Game */ "./src/main/webapp/javascript/Game.tsx");
+/* harmony import */ var _ThreeFour__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ThreeFour */ "./src/main/webapp/javascript/ThreeFour.tsx");
+/* harmony import */ var _Coroutine__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Coroutine */ "./src/main/webapp/javascript/Coroutine.tsx");
+/* harmony import */ var _ShiftMerge__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ShiftMerge */ "./src/main/webapp/javascript/ShiftMerge.tsx");
+/* harmony import */ var _IndexMerge__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./IndexMerge */ "./src/main/webapp/javascript/IndexMerge.tsx");
+/* harmony import */ var _HeapSort__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./HeapSort */ "./src/main/webapp/javascript/HeapSort.tsx");
 /* harmony import */ var _LCS__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./LCS */ "./src/main/webapp/javascript/LCS.tsx");
-/* harmony import */ var _Parse__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Parse */ "./src/main/webapp/javascript/Parse.tsx");
-/* harmony import */ var _Sliding__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./Sliding */ "./src/main/webapp/javascript/Sliding.tsx");
+/* harmony import */ var _API__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./API */ "./src/main/webapp/javascript/API.tsx");
+/* harmony import */ var _Parse__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./Parse */ "./src/main/webapp/javascript/Parse.tsx");
+/* harmony import */ var _Sliding__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./Sliding */ "./src/main/webapp/javascript/Sliding.tsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -102789,28 +103424,36 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 function Layout() {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("nav", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Link, {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("nav", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Link, {
     to: "/"
-  }, "Main"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Link, {
+  }, "Main"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Link, {
     to: "lcs"
-  }, "Longest Common Subsequence"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Link, {
+  }, "Longest Common Subsequence"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Link, {
     to: "34yield"
-  }, "34 using yield"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Link, {
+  }, "34 using yield"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Link, {
     to: "shiftMerge"
-  }, "Merging arrays using shift"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Link, {
+  }, "Merging arrays using shift"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Link, {
     to: "indexMerge"
-  }, "Merging arrays using indices"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Link, {
+  }, "Merging arrays using indices"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Link, {
     to: "starwars"
-  }, "StarWars"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Link, {
+  }, "StarWars"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Link, {
     to: "game"
-  }, "Play"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Link, {
+  }, "Play"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Link, {
     to: "34"
-  }, "Three Four Game"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Link, {
+  }, "Three Four Game"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Link, {
     to: "sliding"
-  }, "Sliding"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Link, {
+  }, "Sliding"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Link, {
     to: "parse"
-  }, "Parse")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Outlet, null));
+  }, "Parse"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Link, {
+    to: "api"
+  }, "API"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Link, {
+    to: "heapsort"
+  }, "Heapsort")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Outlet, null));
+}
+function NotFound() {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null, "NOT FOUND");
 }
 function Main() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
@@ -102818,51 +103461,62 @@ function Main() {
     interestingEvents = _useState2[0],
     setInterestingEvents = _useState2[1]; // start with an empty list of zero people
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().StrictMode), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.BrowserRouter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Routes, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().StrictMode), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.BrowserRouter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Routes, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
     path: "/app3?/src?/main?/resources?/static?/index.html?",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Layout, null)
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
     index: true,
-    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", null, "Welcome!!!")
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null)
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
     path: "lcs",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_LCS__WEBPACK_IMPORTED_MODULE_9__["default"], {
       setInterestingEvents: setInterestingEvents
     })
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
     path: "34yield",
-    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Coroutine__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Coroutine__WEBPACK_IMPORTED_MODULE_5__["default"], {
       setInterestingEvents: setInterestingEvents
     })
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
     path: "shiftMerge",
-    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ShiftMerge__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ShiftMerge__WEBPACK_IMPORTED_MODULE_6__["default"], {
       setInterestingEvents: setInterestingEvents
     })
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
     path: "indexMerge",
-    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_IndexMerge__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_IndexMerge__WEBPACK_IMPORTED_MODULE_7__["default"], {
       setInterestingEvents: setInterestingEvents
     })
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
     path: "starwars",
-    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_StarWars__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_StarWars__WEBPACK_IMPORTED_MODULE_2__["default"], {
       setInterestingEvents: setInterestingEvents
     })
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
     path: "game",
-    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Game__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Game__WEBPACK_IMPORTED_MODULE_3__["default"], {
       setInterestingEvents: setInterestingEvents
     })
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
     path: "34",
-    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ThreeFour__WEBPACK_IMPORTED_MODULE_5__["default"], null)
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ThreeFour__WEBPACK_IMPORTED_MODULE_4__["default"], null)
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
     path: "sliding",
-    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Sliding__WEBPACK_IMPORTED_MODULE_11__["default"], null)
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Sliding__WEBPACK_IMPORTED_MODULE_12__["default"], null)
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
     path: "parse",
-    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Parse__WEBPACK_IMPORTED_MODULE_10__["default"], null)
+    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Parse__WEBPACK_IMPORTED_MODULE_11__["default"], null)
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
+    path: "api",
+    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_API__WEBPACK_IMPORTED_MODULE_10__["default"], null)
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
+    path: "heapsort",
+    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_HeapSort__WEBPACK_IMPORTED_MODULE_8__["default"], {
+      setInterestingEvents: setInterestingEvents
+    })
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
+    path: "*",
+    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(NotFound, null)
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ol", null, interestingEvents.map(function (note, idx) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
       key: idx
