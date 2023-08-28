@@ -1,0 +1,74 @@
+nav {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.red {
+  background-color: red;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.green {
+  background-color: green;
+}
+
+.redgreen {
+  background-color: purple;
+}
+
+.horizontalFlex {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+}
+
+.five {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.me {
+  transform: none;
+}
+
+.heapsort {
+  border: 10px;
+  font-size: larger;
+}
+.heapsort > div {
+  background-color: lightblue;
+  width: 100%;
+  height: 100%;
+  gap: 0px 5px;
+  margin: 5px;
+}
+.heapsort > div > div {
+  background-color: white;
+  width: 100%;
+  margin: 10px;
+  text-align: center;
+}
+
+.heapsort > div > .remaining {
+  background-color: #eeeeee;
+  color: #eeeeee;
+}
+
+.siftdown {
+  background-color: lightgrey;
+}
+
+.complete {
+  background-color: green;
+  font-weight: bolder;
+}
+
+.horizontalFlex > div {
+  width: 100%;
+}
+
+.mermaid {
+}
